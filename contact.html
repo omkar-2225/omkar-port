@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Me | Email Form</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @keyframes gradient-animation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(-45deg, #0d1117, #161b22, #010409, #0d1117);
+      background-size: 400% 400%;
+      animation: gradient-animation 15s ease infinite;
+      color: #d1d5db;
+    }
+
+    #video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -2;
+      filter: blur(2px);
+    }
+
+    .video-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(13, 17, 23, 0.7);
+      z-index: -1;
+    }
+
+    .font-poppins {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc, #e879f9, #38bdf8);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: text-gradient-animation 5s linear infinite;
+    }
+
+    @keyframes text-gradient-animation {
+      to { background-position: 200% center; }
+    }
+
+    #form-message-box {
+      transition: opacity 0.5s;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="video-overlay"></div>
+  <video playsinline autoplay muted loop id="video-background">
+    <source src="https://res.cloudinary.com/dqxkrpwtc/video/upload/v1761071457/12e8c8e8b1a13a90e4a029abe1b51728_nsxrvm.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Header -->
+  <header class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50">
+    <nav class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-center h-16">
+        <span class="font-poppins font-bold text-xl text-white">Get in Touch</span>
+        <a href="index.html" class="absolute right-6 sm:right-6 text-gray-300 hover:text-cyan-300 transition">&larr; Back</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Contact Form -->
+  <section class="py-20 px-6 md:px-0 flex justify-center items-center">
+    <div class="bg-white/5 backdrop-blur-md p-8 rounded-2xl shadow-xl max-w-md w-full border border-white/10">
+      <h2 class="text-center text-3xl font-poppins font-bold text-white gradient-text mb-6">Contact Me</h2>
+      <form onsubmit="sendEmail(event)" class="space-y-6">
+
+        <div>
+          <label for="name" class="block text-sm font-medium text-white mb-1">Your Name</label>
+          <input type="text" id="name" required
+            class="w-full px-4 py-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 focus:ring-2 focus:ring-cyan-400 focus:outline-none text-white placeholder-gray-400 transition duration-300" placeholder="John Doe" />
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm font-medium text-white mb-1">Your Email</label>
+          <input type="email" id="email" required
+            class="w-full px-4 py-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 focus:ring-2 focus:ring-cyan-400 focus:outline-none text-white placeholder-gray-400 transition duration-300" placeholder="you@example.com" />
+        </div>
+
+        <div>
+          <label for="message" class="block text-sm font-medium text-white mb-1">Message</label>
+          <textarea id="message" rows="4" required
+            class="w-full px-4 py-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 focus:ring-2 focus:ring-cyan-400 focus:outline-none text-white placeholder-gray-400 transition duration-300" placeholder="Write your message here..."></textarea>
+        </div>
+
+        <div class="text-center">
+          <button type="submit"
+            class="bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-500 hover:opacity-90 text-white px-6 py-3 rounded-xl font-semibold transition duration-300">
+            Send Message ✉️
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-800 text-center text-gray-500 py-4">
+    <p>&copy; 2025 Your Name. All rights reserved.</p>
+  </footer>
+
+  <!-- EmailJS Script -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init("YABi4DWcjTh6s5p8M"); // Updated public key
+    })();
+
+    function sendEmail(e) {
+      e.preventDefault();
+
+      const params = {
+        from_name: document.getElementById("name").value,
+        from_email: document.getElementById("email").value,
+        message: document.getElementById("message").value
+      };
+
+      emailjs.send("service_mllk7j7", "template_fp3og0a", params) // Updated service & template IDs
+        .then(function (response) {
+          displayMessage("✅ Message Sent! We'll get back to you soon.", 'success');
+          document.querySelector("form").reset();
+        }, function (error) {
+          console.error("EmailJS Error:", error);
+          displayMessage("❌ Failed to send message. Try again later.", 'error');
+        });
+    }
+
+    function displayMessage(text, type) {
+      const container = document.querySelector('form');
+      let box = document.getElementById('form-message-box');
+
+      if (!box) {
+        box = document.createElement('div');
+        box.id = 'form-message-box';
+        box.className = 'text-center py-2 rounded-xl font-medium mb-4';
+        container.prepend(box);
+      }
+
+      box.textContent = text;
+      box.style.backgroundColor = type === 'success' ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)';
+      box.style.color = type === 'success' ? '#22c55e' : '#ef4444';
+      box.style.opacity = '1';
+
+      setTimeout(() => {
+        box.style.opacity = '0';
+      }, 4000);
+    }
+  </script>
+</body>
+</html>
